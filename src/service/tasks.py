@@ -17,7 +17,7 @@ class TasksService:
             self.close_task_by_id(task_id)
 
     def get_active_tasks(self):
-        return list(filter(lambda task: not task.is_closed, self.repository.get_all()))
+        return self.repository.filter(is_closed=False)
 
     def get_tasks_by_deadline(self, start_date: datetime | None = None, end_date: datetime | None= None):
         tasks = self.repository.get_all()

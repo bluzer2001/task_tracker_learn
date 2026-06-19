@@ -20,3 +20,14 @@ class TaskListRepository(TaskBaseRepository):
     def get_all(self) -> list:
         return self.tasks
 
+    def filter(self, **kwargs):
+        result = []
+
+        for task in self.tasks:
+            if all(
+                hasattr(task, attr_name) and getattr(task, attr_name) == value
+                for attr_name, value in kwargs.items()
+            ):
+                result.append(task)
+
+        return result
