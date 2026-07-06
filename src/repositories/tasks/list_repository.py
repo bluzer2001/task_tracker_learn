@@ -2,7 +2,7 @@ __all__ = ("TaskListRepository",)
 
 from .base import TaskBaseRepository
 from src.models import Task
-
+import uuid
 
 class TaskListRepository(TaskBaseRepository):
 
@@ -10,6 +10,7 @@ class TaskListRepository(TaskBaseRepository):
         self.tasks = []
 
     def save(self, task: Task):
+        task.id_ = uuid.uuid4()
         self.tasks.append(task)
 
     def get_by_id(self, task_id: str):

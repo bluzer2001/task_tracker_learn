@@ -1,8 +1,9 @@
 __all__ = ("Task", )
 
-from dataclasses import dataclass, field, fields
+from dataclasses import dataclass, field
 from datetime import datetime
 import uuid
+from .user import User
 
 # from .tag import Tag
 
@@ -12,15 +13,10 @@ class Task:
     name: str
     deadline: datetime | None = None
     is_closed: bool = False
-    id_: str = field(default_factory=lambda : uuid.uuid4())
+    id_: uuid.UUID | None = None
     tags: list[str] = field(default_factory=list[str])
+    assignee_id: str | None = None
 
-
-import inspect
-
-attrs = {
-    name: val
-    for name, val in Task.__dict__.items()
-    if not name.startswith("__")
-}
+    def assign(self, user: User):
+        self.assignee_id = user.id_
 

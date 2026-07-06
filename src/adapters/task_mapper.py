@@ -1,5 +1,7 @@
+__all__ = ("TaskMapper", )
+
 from src.models import Task
-from src.database.models import Task as TaskModel
+from src.database.models import TaskModel
 
 
 
@@ -13,6 +15,7 @@ class TaskMapper:
             is_closed=task.is_closed,
             deadline=task.deadline,
             tags=task.tags,
+            assignee_id=task.assignee_id
         )
 
     @staticmethod
@@ -26,7 +29,8 @@ class TaskMapper:
             name=task.name,
             is_closed=task.is_closed,
             deadline=task.deadline,
-            tags=task.tags
+            tags=task.tags,
+            assignee_id=task.assignee_id,
         )
 
     @staticmethod

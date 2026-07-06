@@ -6,8 +6,7 @@ from sqlalchemy.orm import Session
 from .base import TaskBaseRepository
 from src.adapters import TaskMapper
 from src.models import Task
-from src.database.models import Task as AlchemyTask
-from src.exceptions.task import TaskNotFoundError
+from src.database.models import TaskModel as AlchemyTask
 
 
 class TaskAlchemyRepository(TaskBaseRepository):
@@ -19,10 +18,13 @@ class TaskAlchemyRepository(TaskBaseRepository):
         model_task = TaskMapper.to_model(task)
         self.session.add(model_task)
         self.session.commit()
+        task.id_ = model_task.id_
 
     def get_by_id(self, task_id: str):
         task_model = self.session.get(AlchemyTask, task_id)
-        return TaskMapper.to_entity(task_model)
+        if task_model:
+            return TaskMapper.to_entity(task_model)
+        return None
 
     def get_all(self) -> list:
         task_models = self.session.query(AlchemyTask).all()
