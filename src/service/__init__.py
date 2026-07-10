@@ -1,2 +1,2 @@
 from .tasks import TasksService
-from .task_user import TaskUserService
+from .task_user import TaskAssignmentService

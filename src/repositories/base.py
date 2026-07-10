@@ -6,7 +6,7 @@ from abc import ABC, abstractmethod
 class BaseRepository(ABC):
 
     @abstractmethod
-    def save(self, *args, **kwargs):
+    def add(self, *args, **kwargs):
         pass
 
     @abstractmethod
@@ -15,4 +15,8 @@ class BaseRepository(ABC):
 
     @abstractmethod
     def get_by_id(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
+    def update(self, *args, **kwargs):
         pass

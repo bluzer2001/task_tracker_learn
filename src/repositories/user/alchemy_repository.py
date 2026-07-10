@@ -23,7 +23,7 @@ class UserAlchemyRepository(BaseRepository):
         user_models = self.session.query(UserModel).all()
         return UserMapper.many_to_entity(user_models)
 
-    def save(self, user: User):
+    def add(self, user: User):
         user_model = UserMapper.to_model(user)
         self.session.add(user_model)
         self.session.commit()

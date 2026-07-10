@@ -9,7 +9,7 @@ class TaskListRepository(TaskBaseRepository):
     def __init__(self):
         self.tasks = []
 
-    def save(self, task: Task):
+    def add(self, task: Task):
         task.id_ = uuid.uuid4()
         self.tasks.append(task)
 

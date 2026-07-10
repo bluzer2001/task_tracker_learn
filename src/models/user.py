@@ -7,5 +7,5 @@ import uuid
 class User:
     email: str
     name: str
-    id_: uuid.UUID | None = None
+    id_: uuid.UUID = field(default_factory=uuid.uuid4)
     is_blocked: bool = False

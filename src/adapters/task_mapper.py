@@ -8,31 +8,40 @@ from src.database.models import TaskModel
 class TaskMapper:
 
     @staticmethod
-    def to_model(task: Task) -> TaskModel:
+    def to_model(entity: Task) -> TaskModel:
         return TaskModel(
-            id_=task.id_,
-            name=task.name,
-            is_closed=task.is_closed,
-            deadline=task.deadline,
-            tags=task.tags,
-            assignee_id=task.assignee_id
+            id_=entity.id_,
+            name=entity.name,
+            is_closed=entity.is_closed,
+            deadline=entity.deadline,
+            tags=entity.tags,
+            assignee_id=entity.assignee_id
         )
 
     @staticmethod
-    def many_to_model(tasks: list[Task]):
-        return [TaskMapper.to_model(task) for task in tasks]
+    def many_to_model(entitties: list[Task]):
+        return [TaskMapper.to_model(entity) for entity in entitties]
+    
+    @staticmethod
+    def update_model(entity: Task, model: TaskModel):
+        model.name = entity.name
+        model.is_closed = entity.is_closed
+        model.deadline = entity.deadline
+        model.assignee_id = entity.assignee_id
+        model.tags = entity.tags
+        
 
     @staticmethod
-    def to_entity(task: TaskModel) -> Task:
+    def to_entity(model: TaskModel) -> Task:
         return Task(
-            id_=task.id_,
-            name=task.name,
-            is_closed=task.is_closed,
-            deadline=task.deadline,
-            tags=task.tags,
-            assignee_id=task.assignee_id,
+            id_=model.id_,
+            name=model.name,
+            is_closed=model.is_closed,
+            deadline=model.deadline,
+            tags=model.tags,
+            assignee_id=model.assignee_id,
         )
 
     @staticmethod
-    def many_to_entity(tasks: list[TaskModel]):
-        return [TaskMapper.to_entity(task) for task in tasks]
+    def many_to_entity(models: list[TaskModel]):
+        return [TaskMapper.to_entity(model) for model in models]

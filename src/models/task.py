@@ -13,8 +13,8 @@ class Task:
     name: str
     deadline: datetime | None = None
     is_closed: bool = False
-    id_: uuid.UUID | None = None
-    tags: list[str] = field(default_factory=list[str])
+    id_: uuid.UUID = field(default_factory=uuid.uuid4)
+    tags: list[uuid.UUID] = field(default_factory=list)
     assignee_id: str | None = None
 
     def assign(self, user: User):
