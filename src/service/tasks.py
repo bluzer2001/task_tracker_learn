@@ -10,7 +10,9 @@ class TasksService:
         self.repository = repository
 
     def close_task_by_id(self, id_: str):
-        self.repository.update_task(id_=id_, is_closed=True)
+        task = self.repository.get_by_id(id_)
+        task.is_closed = True
+        self.repository.update(task)
 
     def close_tasks(self, ids: list[str]):
         for task_id in ids:

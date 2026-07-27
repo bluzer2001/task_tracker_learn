@@ -38,4 +38,3 @@ def test_get_active_tasks():
     assert set(task.id_ for task in active_tasks) == set(task.id_ for task in result_tasks)
 
 
-def

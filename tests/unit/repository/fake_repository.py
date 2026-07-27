@@ -10,3 +10,12 @@ class TaskFakeRepository(TaskBaseRepository):
 
     def get_all(self, *args, **kwargs):
         pass
+
+    def update(self, *args, **kwargs):
+        pass
+
+    def add(self, *args, **kwargs):
+        pass
+
+    def filter(self, *args, **kwargs):
+        pass

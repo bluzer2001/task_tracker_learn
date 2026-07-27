@@ -3,8 +3,9 @@ __all__ = ("UserAlchemyRepository", )
 
 from sqlalchemy.orm import Session
 from src.adapters import UserMapper
+from src.exceptions import UserNotFoundError
 from src.models import User
-from src.database.models import UserModel
+from src.database.models import UserModel as AlchemyUser
 from src.repositories.base import BaseRepository
 
 
@@ -14,13 +15,13 @@ class UserAlchemyRepository(BaseRepository):
         self.session = session
 
     def get_by_id(self, user_id: str):
-        user_model = self.session.get(UserModel, user_id)
+        user_model = self.session.get(AlchemyUser, user_id)
         if user_model:
             return UserMapper.to_entity(user_model)
         return None
 
     def get_all(self):
-        user_models = self.session.query(UserModel).all()
+        user_models = self.session.query(AlchemyUser).all()
         return UserMapper.many_to_entity(user_models)
 
     def add(self, user: User):
@@ -28,3 +29,12 @@ class UserAlchemyRepository(BaseRepository):
         self.session.add(user_model)
         self.session.commit()
         user.id_ = user_model.id_
+
+    def update(self, user: User, commit: bool = False):
+        model_user = self.session.get(AlchemyUser, user.id_)
+        if not model_user:
+            raise UserNotFoundError(f"Нет пользователя с id = {user.id_}")
+        UserMapper.update_model(entity=user, model=model_user)
+        if commit:
+            self.session.commit()
+        return user

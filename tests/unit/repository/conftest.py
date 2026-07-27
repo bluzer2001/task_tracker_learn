@@ -1,5 +1,5 @@
 
-from .fake_repository import TaskFakeRepository
+from tests.unit.repository.fake_repository import TaskFakeRepository
 from pytest import fixture
 
 

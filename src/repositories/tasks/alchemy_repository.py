@@ -31,11 +31,11 @@ class TaskAlchemyRepository(TaskBaseRepository):
         task_models = self.session.query(AlchemyTask).all()
         return TaskMapper.many_to_entity(task_models)
 
-    # TODO: убрать так как работает неправильно (save)
-    def update_task(self, id_: str, commit: bool = False, **kwargs) -> Task:
-        task = super().update_task(id_=id_, **kwargs)
-        self.add(task, commit=commit)
-        return task
+    # # TODO: убрать так как работает неправильно (save)
+    # def update_task(self, id_: str, commit: bool = False, **kwargs) -> Task:
+    #     task = super().update_task(id_=id_, **kwargs)
+    #     self.add(task, commit=commit)
+    #     return task
 
     def update(self, task: Task, commit: bool = False):
         model_task = self.session.get(AlchemyTask, task.id_)

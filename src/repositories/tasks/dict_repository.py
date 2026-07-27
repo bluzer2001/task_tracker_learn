@@ -6,6 +6,8 @@ from .base import TaskBaseRepository
 from src.models import Task
 import operator
 
+from ...exceptions import TaskNotFoundError
+
 filter_dict = {
     "eq": operator.eq,
     "gt": operator.gt,
@@ -56,3 +58,9 @@ class TaskDictRepository(TaskBaseRepository):
         #         result.append(task)
 
         return result
+
+    def update(self, task: Task):
+        if task.id_ not in self.tasks:
+            raise TaskNotFoundError(f"Нет задачи с id = {task.id_}")
+        self.tasks[task.id_] = task
+        return task
