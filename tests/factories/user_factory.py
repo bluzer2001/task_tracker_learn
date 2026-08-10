@@ -13,7 +13,7 @@ class UserFactory(factory.Factory):
     name = factory.Faker("sentence")
     is_blocked = factory.Faker("boolean")
     email = factory.Faker("email")
-    id_ = factory.Faker("uuid4")
+    id_ = factory.LazyFunction(uuid.uuid4)
 
 
 class UserAlchemyFactory(UserFactory, factory.alchemy.SQLAlchemyModelFactory):
