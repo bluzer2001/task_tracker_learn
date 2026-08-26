@@ -1,5 +1,4 @@
-
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, NullPool
 from sqlalchemy.orm import sessionmaker
 from src.config.database import DB_URL
 from .models import Base
@@ -12,7 +11,7 @@ def get_engine():
     global engine
     if engine:
         return engine
-    engine = create_engine(DB_URL)
+    engine = create_engine(DB_URL, poolclass=NullPool)
     return engine
 
 session_factory = sessionmaker(bind=get_engine())
@@ -24,4 +23,5 @@ def init_and_clear_db():
     try:
         yield
     finally:
+        engine.dispose()
         Base.metadata.drop_all(engine)

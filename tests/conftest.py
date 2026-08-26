@@ -4,7 +4,7 @@ from src.database.models import Base
 from tests.session_for_test import engine, session_factory
 
 from src.repositories import UserAlchemyRepository, TaskAlchemyRepository
-from src.service import TaskAssignmentService
+from src.service import TaskAssignmentService, EmailService
 
 
 @pytest.fixture(autouse=True, scope="session")
@@ -36,4 +36,4 @@ def task_repo(session):
 
 @pytest.fixture
 def task_assignment_service(user_repo, task_repo):
-    return TaskAssignmentService(task_repo, user_repo)
+    return TaskAssignmentService(task_repo, user_repo, email_service=EmailService())

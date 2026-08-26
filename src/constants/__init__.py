@@ -1,0 +1,1 @@
+from .redis import NOTIFICATION_QUEUE

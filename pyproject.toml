@@ -9,6 +9,7 @@ dependencies = [
     "faker>=40.19.1",
     "pytest>=9.0.3",
     "python-dotenv>=1.2.2",
+    "redis>=8.1.0",
     "ruff>=0.15.16",
     "sqlalchemy>=2.0.50",
 ]
