@@ -1,2 +1,2 @@
-from .base import NotificationsQueue
-from .redis import RedisNotificationsQueue
+from .base import BaseQueue
+from .redis import RedisNotificationsQueue, RedisAnalyticsQueue

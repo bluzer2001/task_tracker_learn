@@ -1,1 +1,5 @@
-NOTIFICATION_QUEUE = "notification_queue"
+NOTIFICATION_QUEUE = "notification"
+NOTIFICATION_PROCESS_QUEUE = "notification:processing"
+DEAD_NOTIFICATION_QUEUE = "notification:dead"
+ANALYSIS_QUEUE = "analysis"
+DEAD_ANALYSIS_QUEUE = "dead_analysis"

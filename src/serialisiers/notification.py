@@ -1,9 +1,10 @@
 from dataclasses import asdict
 import json
 from src.models import Notification
+from .base import Serializer
 
-class NotificationSerializer:
 
+class NotificationSerializer(Serializer):
     @staticmethod
     def serialize(notification: Notification) -> str:
         obj_dict = asdict(notification)

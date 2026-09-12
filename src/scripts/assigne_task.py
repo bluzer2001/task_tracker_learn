@@ -1,12 +1,15 @@
-from src.service import TaskAssignmentService, EmailService
+import logging
+from src.service import TaskAssignmentService
+from src.config.logging import configure_logging
 from src.queues import RedisNotificationsQueue
 from src.repositories import TaskAlchemyRepository, UserAlchemyRepository
 from src.database.sqllite import session_factory, init_and_clear_db
 from src.redis_client import redis_client
-from src.constants import NOTIFICATION_QUEUE
+from src.constants import NOTIFICATION_QUEUE, ANALYSIS_QUEUE
 from src.models import User, Task
 from time import time
 
+configure_logging()
 
 def assign_to_user():
     # with session_factory() as session:
@@ -15,7 +18,8 @@ def assign_to_user():
     user_repo = UserAlchemyRepository(session)
 
     notification_queue = RedisNotificationsQueue(redis_client, NOTIFICATION_QUEUE)
-    task_user_service = TaskAssignmentService(task_repo, user_repo, notification_queue)
+    analytic_message_queue = RedisNotificationsQueue(redis_client, ANALYSIS_QUEUE)
+    task_user_service = TaskAssignmentService(task_repo, user_repo, notification_queue, analytic_message_queue=analytic_message_queue)
 
     user = User(name="test_user", email="example")
     task = Task(name="test_task")

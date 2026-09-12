@@ -1,12 +1,19 @@
 from abc import ABC, abstractmethod
-from src.models import Notification
 
-class NotificationsQueue(ABC):
+class BaseQueue(ABC):
 
     @abstractmethod
-    def publish(self, notification: Notification):
+    def publish(self, obj):
         pass
 
     @abstractmethod
-    def consume(self) -> Notification | None:
+    def consume(self):
+        pass
+
+    @abstractmethod
+    def ack(self, obj):
+        pass
+
+    @abstractmethod
+    def reject(self, obj):
         pass
