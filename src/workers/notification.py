@@ -21,7 +21,7 @@ class NotificationWorker(Worker):
                 logger.info("Попытка отправить сообщение")
                 self.service.send(model)
             except Exception as e:
-                logger.warning("Возникла ошибка, возвращаем в очередь")
+                logger.exception("Возникла ошибка, возвращаем в очередь")
                 self.queue.reject(model)
             else:
                 logger.info("Успешно отправили")
