@@ -16,6 +16,15 @@ def get_engine():
 
 session_factory = sessionmaker(bind=get_engine())
 
+
+def get_session():
+    session = session_factory()
+    try:
+        yield session
+    finally:
+        session.close()
+
+
 @contextmanager
 def init_and_clear_db():
     engine = get_engine()

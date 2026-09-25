@@ -1,5 +1,6 @@
 __all__ = ("TasksService",)
 
+from src.models import Task
 from src.repositories.tasks import TaskBaseRepository
 from datetime import datetime
 
@@ -18,8 +19,10 @@ class TasksService:
         for task_id in ids:
             self.close_task_by_id(task_id)
 
-    def get_active_tasks(self):
-        return self.repository.filter(is_closed=False)
+    def get_tasks(self, is_closed: bool | None = None) -> list[Task]:
+        if is_closed is None:
+            return self.repository.get_all()
+        return self.repository.filter(is_closed=is_closed)
 
     def get_tasks_by_deadline(self, start_date: datetime | None = None, end_date: datetime | None= None):
         tasks = self.repository.get_all()

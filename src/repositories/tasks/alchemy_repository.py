@@ -53,11 +53,10 @@ class TaskAlchemyRepository(TaskBaseRepository):
         for column_name, value in kwargs.items():
             column = getattr(AlchemyTask, column_name)
             filters.append(column==value)
-        print(filters, type(filters[0]))
 
         if filters:
             stmt = stmt.where(and_(*filters))
-        result = self.session.execute(stmt).all()
-        return TaskMapper.many_to_entity(result)
-
+        result = self.session.execute(stmt)
+        models = result.scalars().all()
+        return TaskMapper.many_to_entity(models)
 

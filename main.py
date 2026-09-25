@@ -6,7 +6,7 @@ from src.database.models import Base, TaskModel
 from src.database.sqllite import get_engine, session_factory
 from sqlalchemy import select
 from src.scripts.assigne_task import assign_to_user
-
+from src.models import Task
 
 def main():
     # repository = TaskListRepository()
@@ -41,13 +41,13 @@ def main():
     # Base.metadata.drop_all(engine)
     # Base.metadata.create_all(engine)
     #
-    # repository = TaskAlchemyRepository(session_factory())
-    #
-    #
-    # repository.create("test1")
-    # repository.create("test2")
-    # tasks = repository.get_all()
-    # print(tasks)
+    repository = TaskAlchemyRepository(session_factory())
+
+
+    repository.add(Task(name="test12"), commit=True)
+    repository.add(Task(name="test22"), commit=True)
+    tasks = repository.get_all()
+    print(tasks)
 
     # service = TasksService(repository)
     # active_tasks = service.get_active_tasks()
@@ -67,8 +67,11 @@ def main():
     # task = repository.update_task(task.id_, is_closed=True)
     # filtered = repository.filter(is_closed=False)
     # print(filtered, task)
-    task, user = assign_to_user()
-    print(task.assignee_id, user.id_)
+    # task, user = assign_to_user()
+    # print(task.assignee_id, user.id_)
+
+    # engine = get_engine()
+    # Base.metadata.create_all(engine)
 
 if __name__ == '__main__':
 
