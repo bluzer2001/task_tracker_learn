@@ -37,17 +37,17 @@ def main():
 
     # ---
 
-    # engine = get_engine()
+    engine = get_engine()
     # Base.metadata.drop_all(engine)
-    # Base.metadata.create_all(engine)
+    Base.metadata.create_all(engine)
     #
-    repository = TaskAlchemyRepository(session_factory())
-
-
-    repository.add(Task(name="test12"), commit=True)
-    repository.add(Task(name="test22"), commit=True)
-    tasks = repository.get_all()
-    print(tasks)
+    # repository = TaskAlchemyRepository(session_factory())
+    #
+    #
+    # repository.add(Task(name="test12"), commit=True)
+    # repository.add(Task(name="test22"), commit=True)
+    # tasks = repository.get_all()
+    # print(tasks)
 
     # service = TasksService(repository)
     # active_tasks = service.get_active_tasks()

@@ -13,7 +13,7 @@ class TasksService:
     def close_task_by_id(self, id_: str):
         task = self.repository.get_by_id(id_)
         task.is_closed = True
-        self.repository.update(task)
+        self.repository.update(task, commit=True)
 
     def close_tasks(self, ids: list[str]):
         for task_id in ids:
@@ -24,6 +24,9 @@ class TasksService:
             return self.repository.get_all()
         return self.repository.filter(is_closed=is_closed)
 
+    def get(self, task_id: str) -> Task:
+        return self.repository.get_by_id(task_id)
+
     def get_tasks_by_deadline(self, start_date: datetime | None = None, end_date: datetime | None= None):
         tasks = self.repository.get_all()
         if start_date:
@@ -33,5 +36,12 @@ class TasksService:
             tasks = filter(lambda task: task.deadline <= end_date, tasks)
         return list(tasks)
 
+    def create(self, **kwargs) -> Task:
+        task = Task(**kwargs)
+        self.repository.add(task, commit=True)
+        return task
 
-
+    def update(self, task_id: str, **kwargs) -> Task:
+        task = self.repository.get_by_id(task_id)
+        task.update(**kwargs)
+        return self.repository.update(task, commit=True)

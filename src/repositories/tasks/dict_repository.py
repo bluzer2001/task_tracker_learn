@@ -59,7 +59,7 @@ class TaskDictRepository(TaskBaseRepository):
 
         return result
 
-    def update(self, task: Task):
+    def update(self, task: Task, commit: bool = False):
         if task.id_ not in self.tasks:
             raise TaskNotFoundError(f"Нет задачи с id = {task.id_}")
         self.tasks[task.id_] = task
