@@ -21,21 +21,15 @@ class TaskAlchemyRepository(TaskBaseRepository):
         if commit:
             self.session.commit()
 
-    def get_by_id(self, task_id: str):
+    def get_by_id(self, task_id: str) -> Task:
         task_model = self.session.get(AlchemyTask, task_id)
-        if task_model:
+
+        if task_model and not task_model.is_deleted:
             return TaskMapper.to_entity(task_model)
         return None
 
     def get_all(self) -> list:
-        task_models = self.session.query(AlchemyTask).all()
-        return TaskMapper.many_to_entity(task_models)
-
-    # # TODO: убрать так как работает неправильно (save)
-    # def update_task(self, id_: str, commit: bool = False, **kwargs) -> Task:
-    #     task = super().update_task(id_=id_, **kwargs)
-    #     self.add(task, commit=commit)
-    #     return task
+        return self.filter(is_deleted=False)
 
     def update(self, task: Task, commit: bool = False):
         model_task = self.session.get(AlchemyTask, task.id_)
@@ -59,4 +53,12 @@ class TaskAlchemyRepository(TaskBaseRepository):
         result = self.session.execute(stmt)
         models = result.scalars().all()
         return TaskMapper.many_to_entity(models)
+
+    def delete(self, task_id: str):
+        task = self.session.get(AlchemyTask, task_id)
+        if not task or task.is_deleted:
+            return False
+        task.is_deleted = True
+        self.session.commit()
+        return True
 

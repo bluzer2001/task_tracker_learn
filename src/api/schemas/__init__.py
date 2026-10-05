@@ -1,2 +1,2 @@
-from .task import TaskCreateSchema, TaskUpdateSchema, TaskDetailsSchema
+from .task import TaskUpdateSchema, TaskCreateSchema, TaskDetailsSchema
 from .user import UserCreateSchema, UserUpdateSchema

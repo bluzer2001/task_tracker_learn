@@ -38,7 +38,7 @@ def main():
     # ---
 
     engine = get_engine()
-    # Base.metadata.drop_all(engine)
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     #
     # repository = TaskAlchemyRepository(session_factory())

@@ -16,6 +16,7 @@ class Task:
     id_: uuid.UUID = field(default_factory=uuid.uuid4)
     tags: list[uuid.UUID] = field(default_factory=list)
     assignee_id: uuid.UUID | None = None
+    is_deleted: bool = False
 
     def assign(self, user: User):
         self.assignee_id = user.id_

@@ -1,10 +1,10 @@
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel, ConfigDict, field_serializer
+from pydantic import BaseModel, ConfigDict, field_serializer, Field
 
 
-class TaskCreateSchema(BaseModel):
+class TaskSchema(BaseModel):
     name: str
     is_closed: bool = False
     deadline: datetime | None = None
@@ -18,12 +18,13 @@ class TaskCreateSchema(BaseModel):
         return [str(tag) for tag in tags]
 
 
-class TaskUpdateSchema(BaseModel):
+class TaskCreateSchema(TaskSchema):
+    pass
+
+
+class TaskUpdateSchema(TaskSchema):
     name: str | None = None
-    is_closed: bool | None = None
 
 
-class TaskDetailsSchema(BaseModel):
-    id_: uuid.UUID
-    name: str
-    is_closed: bool
+class TaskDetailsSchema(TaskSchema):
+    id_: uuid.UUID = Field(serialization_alias="id")

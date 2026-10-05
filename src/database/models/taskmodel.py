@@ -18,5 +18,6 @@ class TaskModel(Base):
     deadline: Mapped[datetime] = mapped_column(nullable=True)
     tags: Mapped[list[str]] = mapped_column(JSON, default=list)
     assignee_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("user.id_"), nullable=True)
+    is_deleted: Mapped[bool] = mapped_column(default=False)
 
     assignee: Mapped["UserModel"] = relationship("UserModel", back_populates="tasks")

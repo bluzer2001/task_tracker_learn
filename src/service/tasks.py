@@ -1,8 +1,11 @@
 __all__ = ("TasksService",)
 
+from src.exceptions import TaskNotFoundError
 from src.models import Task
 from src.repositories.tasks import TaskBaseRepository
 from datetime import datetime
+
+from tests.unit.repository import task_list_repository
 
 
 class TasksService:
@@ -25,7 +28,10 @@ class TasksService:
         return self.repository.filter(is_closed=is_closed)
 
     def get(self, task_id: str) -> Task:
-        return self.repository.get_by_id(task_id)
+        task = self.repository.get_by_id(task_id)
+        if not task:
+            raise TaskNotFoundError(task_id)
+        return task
 
     def get_tasks_by_deadline(self, start_date: datetime | None = None, end_date: datetime | None= None):
         tasks = self.repository.get_all()
@@ -45,3 +51,9 @@ class TasksService:
         task = self.repository.get_by_id(task_id)
         task.update(**kwargs)
         return self.repository.update(task, commit=True)
+
+
+    def delete(self, task_id: str) -> bool:
+        return  self.repository.delete(task_id)
+
+
