@@ -2,7 +2,7 @@ __all__ = ("TasksService",)
 
 from src.exceptions import TaskNotFoundError
 from src.models import Task
-from src.repositories.tasks import TaskBaseRepository
+from src.repositories.base import BaseRepository
 from datetime import datetime
 
 from tests.unit.repository import task_list_repository
@@ -10,7 +10,7 @@ from tests.unit.repository import task_list_repository
 
 class TasksService:
 
-    def __init__(self, repository: TaskBaseRepository):
+    def __init__(self, repository: BaseRepository):
         self.repository = repository
 
     def close_task_by_id(self, id_: str):

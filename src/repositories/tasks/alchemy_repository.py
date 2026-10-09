@@ -3,33 +3,18 @@ __all__ = ("TaskAlchemyRepository",)
 from sqlalchemy import select, and_
 from sqlalchemy.orm import Session
 
-from .base import TaskBaseRepository
 from src.adapters import TaskMapper
 from src.models import Task
 from src.database.models import TaskModel as AlchemyTask
+from ..alchemy import AlchemyRepository
+from ..base import BaseRepository
 from ...exceptions import TaskNotFoundError
 
 
-class TaskAlchemyRepository(TaskBaseRepository):
-
-    def __init__(self, session: Session):
-        self.session = session
-
-    def add(self, task: Task, commit: bool = False):
-        model_task = TaskMapper.to_model(task)
-        self.session.add(model_task)
-        if commit:
-            self.session.commit()
-
-    def get_by_id(self, task_id: str) -> Task:
-        task_model = self.session.get(AlchemyTask, task_id)
-
-        if task_model and not task_model.is_deleted:
-            return TaskMapper.to_entity(task_model)
-        return None
+class TaskAlchemyRepository(AlchemyRepository):
 
     def get_all(self) -> list:
-        return self.filter(is_deleted=False)
+        return self.filter()
 
     def update(self, task: Task, commit: bool = False):
         model_task = self.session.get(AlchemyTask, task.id_)
@@ -40,9 +25,10 @@ class TaskAlchemyRepository(TaskBaseRepository):
             self.session.commit()
         return task
 
-    def filter(self, **kwargs):
+    def filter(self, is_deleted: bool = False, **kwargs):
         stmt = select(AlchemyTask)
         filters = []
+        kwargs["is_deleted"] = is_deleted
 
         for column_name, value in kwargs.items():
             column = getattr(AlchemyTask, column_name)

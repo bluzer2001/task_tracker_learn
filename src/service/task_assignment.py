@@ -1,7 +1,7 @@
 import logging
 from src.exceptions import TaskNotFoundError, UserNotFoundError, UserBlockedError
 from src.models import Task, User, AnalyticMessage, Notification
-from src.repositories.tasks import TaskBaseRepository
+from src.repositories.base import BaseRepository
 from src.repositories.user import UserAlchemyRepository
 from src.queues import BaseQueue
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class TaskAssignmentService:
 
     def __init__(self,
-                 task_repo: TaskBaseRepository,
+                 task_repo: BaseRepository,
                  user_repo: UserAlchemyRepository,
                  notification_queue: BaseQueue,
                  analytic_message_queue: BaseQueue):

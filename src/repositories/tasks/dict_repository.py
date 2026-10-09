@@ -2,10 +2,10 @@ __all__ = ("TaskDictRepository",)
 
 import uuid
 
-from .base import TaskBaseRepository
 from src.models import Task
 import operator
 
+from ..base import BaseRepository
 from ...exceptions import TaskNotFoundError
 
 filter_dict = {
@@ -17,7 +17,7 @@ filter_dict = {
 }
 
 
-class TaskDictRepository(TaskBaseRepository):
+class TaskDictRepository(BaseRepository):
 
     def __init__(self):
         self.tasks = {}

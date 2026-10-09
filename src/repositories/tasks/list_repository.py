@@ -1,10 +1,12 @@
 __all__ = ("TaskListRepository",)
 
-from .base import TaskBaseRepository
 from src.models import Task
 import uuid
 
-class TaskListRepository(TaskBaseRepository):
+from ..base import BaseRepository
+
+
+class TaskListRepository(BaseRepository):
 
     def __init__(self):
         self.tasks = []

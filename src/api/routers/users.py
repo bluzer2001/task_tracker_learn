@@ -3,27 +3,6 @@ from src.api.schemas import UserCreateSchema, UserUpdateSchema
 
 router = APIRouter(prefix="/users", tags=["users"])
 
-users = [
-    {
-        "id": 1,
-        "name": "Alex",
-        "is_blocked": False,
-    },
-    {
-        "id": 2,
-        "name": "Ivan",
-        "is_blocked": True,
-    },
-]
-
-
-def find_user_by_id(user_id: int):
-    try:
-        return next(user for user in users if user["id"] == user_id)
-    except StopIteration:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    
-
 
 @router.get("/")
 def read_users(is_blocked: bool | None = None):

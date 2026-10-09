@@ -3,9 +3,8 @@ import uuid
 from fastapi import HTTPException, status, APIRouter, Depends
 
 from src.exceptions import TaskNotFoundError
-from src.api.dependencies import get_task_service, get_task_repository
+from src.api.dependencies import get_task_service
 from src.api.schemas import TaskUpdateSchema, TaskCreateSchema, TaskDetailsSchema
-from src.repositories.tasks import TaskAlchemyRepository
 from src.service.tasks import TasksService
 
 router = APIRouter(prefix="/tasks", tags=["tasks"])
@@ -19,14 +18,9 @@ def read_tasks(is_closed: bool | None = None, service: TasksService = Depends(ge
 
 @router.get("/{task_id}", response_model=TaskDetailsSchema)
 def read_task(task_id: uuid.UUID, service: TasksService = Depends(get_task_service)):
-    try:
-        task = service.get(task_id)
-    except TaskNotFoundError:
-        raise HTTPException(status_code=404, detail="Task not found")
-    return task
+    return service.get(task_id)
 
-
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED, response_model=TaskDetailsSchema)
 def create_task(
     task: TaskCreateSchema, service: TasksService = Depends(get_task_service)
 ):
@@ -34,7 +28,7 @@ def create_task(
     return new_task
 
 
-@router.patch("/{task_id}")
+@router.patch("/{task_id}", response_model=TaskDetailsSchema)
 def update_task(task_id: uuid.UUID, data: TaskUpdateSchema, service: TasksService = Depends(get_task_service)):
     return service.update(task_id, **data.model_dump(exclude_unset=True))
 

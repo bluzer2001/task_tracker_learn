@@ -20,3 +20,7 @@ class BaseRepository(ABC):
     @abstractmethod
     def update(self, *args, **kwargs):
         pass
+
+    @abstractmethod
+    def filter(self, **kwargs):
+        pass
